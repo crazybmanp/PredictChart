@@ -73,9 +73,21 @@ def matplotGraph(x, y):
     x = np.asarray(x)
     fig, ax = plt.subplots()
 
-    x4, y4, WeekString = runPredict(x,y, datetime.timedelta(days=7))
-    x2, y2, DayString = runPredict(x,y, datetime.timedelta(days=1))
-    x3, y3, HourString = runPredict(x,y, datetime.timedelta(hours=1))
+    try:
+        x4, y4, WeekString = runPredict(x,y, datetime.timedelta(days=7))
+    except ZeroDivisionError:
+        x4, y4 = x[len(x)-1], y[len(x)-1]
+        WeekString = "NA"
+    try:
+        x2, y2, DayString = runPredict(x,y, datetime.timedelta(days=1))
+    except ZeroDivisionError:
+        x2, y2 = x[len(x)-1], y[len(x)-1]
+        DayString = "NA"
+    try:
+        x3, y3, HourString = runPredict(x,y, datetime.timedelta(hours=1))
+    except ZeroDivisionError:
+        x3, y3 = x[len(x)-1], y[len(x)-1]
+        HourString = "NA"
 
     print("Weekly:\t"+WeekString+" Remaining")
     print("Daily:\t"+DayString+" Remaining")
